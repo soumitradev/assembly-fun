@@ -37,11 +37,12 @@ push 0x58b0
 ; by our stack and will not be executed. So, the print 'A' will never be executed.
 ; Small and simple expolit. Probably one of my proudest pieces of code.
 
-; Loop infinitely after finishing
-jmp $
 
 mov al, 'A'
 int 0x10
+; Loop infinitely after finishing
+jmp $
+
 
 ; Pad rest of boot sector with zeroes
 times 510-($-$$) db 0
