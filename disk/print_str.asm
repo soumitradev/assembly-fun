@@ -1,4 +1,4 @@
-print:
+print_str:
   ; Push all registers
   pusha
   ; Define a while loop that runs while current character is not null.

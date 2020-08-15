@@ -1,22 +1,43 @@
-; Ok no lookers now. We need to write a program that can write any hex value in a register
+; Let us now switch to 32 bit protected mode
 [org 0x7c00]
 
-; Use dx as the parameter we pass
-mov dx, 0x1C9B
-call print_hex
+; Set stack
+mov bp, 0x9000
 
-; Loop infinitely after finishing
+; Print the 16 bit mode declaration
+mov bx, MSG_REAL_MODE
+call print_str
+
+; Switch to 32 bit and never return 😢
+call switch_to_pm
+
+; Hang
 jmp $
 
-; Lets write a print library
-%include "print_hex.asm"
+; Include all our previous epic code
+%include "./print_str.asm"
+%include "./gdt.asm"
+%include "./print_str_32.asm"
+%include "./switch_to_pm.asm"
 
-; Define vars (note how we terminate stings with a null). This is the string we'll write into
-HEX_OUT:
-db '0x0000', 0
+; Now we are in 32 bit mode, so tell assembler to use 32 bit instructions from now on
+[bits 32]
 
-; Pad rest of boot sector with zeroes
-times 510-($-$$) db 0
+; Now we are in 32 bit protected mode 😎
+begin_pm:
+; Print a message using our print thing
+mov ebx, MSG_PROT_MODE
+call print_str_32
 
-; Write magic number at end of boot sector
-dw 0xaa55 
+; Hang
+jmp $
+
+; Define text to print
+MSG_REAL_MODE db "Started in 16-bit Real Mode", 0
+MSG_PROT_MODE db "Successfully moved to 32-bit Protected Mode", 0
+
+; Padding
+times 510-($-$$) db 0 
+
+; Magic number
+dw 0xaa55

@@ -44,11 +44,11 @@ print_hex:
   print_hex_done:
     ; Use our print function to print the string in memory
     mov bx, HEX_OUT
-    call print
+    call print_str
 
     ; Pop the resgisters and return
     popa
     ret
 
-; Don't forget to include your print function~
-%include "print.asm"
+; ; Don't forget to include your print function~
+; %include "print_str.asm"
