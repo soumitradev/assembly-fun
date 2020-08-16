@@ -1,0 +1,20 @@
+	.text
+	.def	 @feat.00;
+	.scl	3;
+	.type	0;
+	.endef
+	.globl	@feat.00
+.set @feat.00, 0
+	.file	"basic.c"
+	.def	 my_function;
+	.scl	2;
+	.type	32;
+	.endef
+	.globl	my_function             # -- Begin function my_function
+	.p2align	4, 0x90
+my_function:                            # @my_function
+# %bb.0:
+	movl	$47802, %eax            # imm = 0xBABA
+	retq
+                                        # -- End function
+	.addrsig
