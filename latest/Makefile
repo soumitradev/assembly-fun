@@ -8,11 +8,11 @@ all: os-image
 run: all
 	qemu-system-x86_64 -hda os-image -boot c
 
-os-image: boot/boot_sect.bin kernel.bin
-	cat $^ > $@
+os-image: boot/boot_sect.bin
+	cp $^ $@
 
 kernel.bin: kernel/kernel.o ${OBJ}
-	ld -o $@ -Ttext 0x1000 $^ --oformat binary
+	ld -o $@ -T linker.ld $^ --oformat binary
 	
 %.o: %.c ${HEADERS}
 	gcc -ffreestanding -c $< -o $@
@@ -20,7 +20,7 @@ kernel.bin: kernel/kernel.o ${OBJ}
 %.o: %.asm
 	nasm $< -f elf -o $@
 
-%.bin: %.asm
+%.bin: %.asm kernel.bin
 	nasm $< -f bin -I ./boot/ -o $@
 
 clean:

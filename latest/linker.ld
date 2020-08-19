@@ -1,10 +1,29 @@
-ENTRY(main)
-OUTPUT_FORMAT(elf64-x86-64)
+OUTPUT_FORMAT(binary)
+ENTRY(bootMain)
 
 SECTIONS {
-    .text : ALIGN(0x1000) {
-        _TEXT_START_ = .;
-            *(.text)
-        _TEXT_END_ = .;
+    . = 0x100000;
+
+    .init : {
+        *(.init)
+    }
+
+    .text : {
+        *(.text*)
+    }
+
+    .rodata : {
+        *(.rodata*)
+    }
+
+    .data : {
+        *(.data*)
+    }
+
+    .bss : {
+        bssBegin = .;
+        *(COMMON)
+        *(.bss*)
+        bssEnd = .;
     }
 }

@@ -30,7 +30,7 @@ init_pm:
   mov gs, ax
 
   ; Update stack position
-  mov ebp, 0x90000
+  mov ebp, 0xffff0
   mov esp, ebp
 
   ; Begin 32 bit mode

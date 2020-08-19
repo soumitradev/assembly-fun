@@ -2,7 +2,7 @@
 [org 0x7c00]
 
 ; Place where we load kernel from
-KERNEL_OFFSET equ 0x1000
+KERNEL_OFFSET equ 0x200
 
 mov [BOOT_DRIVE], dl
 
@@ -16,7 +16,6 @@ call print_str
 
 ; Load kernel
 call load_kernel
-
 ; Switch to 32 bit and never return 😢
 call switch_to_pm
 
@@ -43,7 +42,6 @@ load_kernel:
     mov dh, 15
     mov dl, [BOOT_DRIVE]
     call disk_load
-
     ret
 
 ; Now we are in 32 bit mode, so tell assembler to use 32 bit instructions from now on
@@ -72,3 +70,8 @@ times 510-($-$$) db 0
 
 ; Magic number
 dw 0xaa55
+
+incbin '../kernel.bin'
+
+; Padding
+times 0xf0000-($-$$) db 0
