@@ -2,7 +2,7 @@
 [org 0x7c00]
 
 ; Place where we load kernel from
-KERNEL_OFFSET equ 0x200
+KERNEL_OFFSET equ 0x1000
 
 mov [BOOT_DRIVE], dl
 
@@ -13,17 +13,20 @@ mov sp, bp
 ; Print the 16 bit mode declaration
 mov bx, MSG_REAL_MODE
 call print_str
+call print_nl
 
 ; Load kernel
 call load_kernel
+
 ; Switch to 32 bit and never return 😢
 call switch_to_pm
 
-; Hang
+; Hang. If we don't switch to PM, better not run random code.
 jmp $
 
 ; Include all our previous epic code
-%include "print_str.asm"
+; We don't include "print_str.asm" because print_hex.asm already imports it for its implementation
+%include "print_hex.asm"
 %include "disk_load.asm"
 %include "gdt.asm"
 %include "print_str_32.asm"
@@ -36,12 +39,14 @@ load_kernel:
     ; Print message saying you're loading kernel
     mov bx, MSG_LOAD_KERNEL
     call print_str
+    call print_nl
 
     ; Load 15 sectors (why not)
     mov bx, KERNEL_OFFSET
     mov dh, 15
     mov dl, [BOOT_DRIVE]
     call disk_load
+
     ret
 
 ; Now we are in 32 bit mode, so tell assembler to use 32 bit instructions from now on
@@ -56,7 +61,7 @@ call print_str_32
 ; Run the kernel 😎
 call KERNEL_OFFSET
 
-; Hang
+; Hang if kernel ever returns
 jmp $
 
 ; Define text to print
@@ -70,8 +75,3 @@ times 510-($-$$) db 0
 
 ; Magic number
 dw 0xaa55
-
-incbin '../kernel.bin'
-
-; Padding
-times 0xf0000-($-$$) db 0

@@ -1,29 +1,6 @@
-OUTPUT_FORMAT(binary)
-ENTRY(bootMain)
+ENTRY(_start)
 
-SECTIONS {
-    . = 0x100000;
-
-    .init : {
-        *(.init)
-    }
-
-    .text : {
-        *(.text*)
-    }
-
-    .rodata : {
-        *(.rodata*)
-    }
-
-    .data : {
-        *(.data*)
-    }
-
-    .bss : {
-        bssBegin = .;
-        *(COMMON)
-        *(.bss*)
-        bssEnd = .;
-    }
+SECTIONS
+{
+    .text = 0x1000;
 }

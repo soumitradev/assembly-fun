@@ -1,4 +1,5 @@
 disk_load:
+  pusha
   ; Push dx to stack so we can store how many sectors were requested to be read
   push dx
 
@@ -18,63 +19,30 @@ disk_load:
   ; Jump if error
   jc disk_error
 
-  ; mov ah, 0x42
-  
-  ; mov byte [DAP.numberOfSectors], dh
-  ; mov si, DAP
-  ; int 0x13
-  
-  ; mov bx, DISK_ERROR_MSG
-  ; call print_str
-  ; jc disk_error
   ; Restore dx
   pop dx
   ; If all sectors are read, do nothing. Else, error out
   cmp dh, al
   jne disk_error
+  popa
   ret
 
 ; Print disk error message on error
 disk_error:
   mov bx, DISK_ERROR_MSG
   call print_str
+  call print_nl
+  mov dh, ah
+  call print_hex
   ; Loop infinitely after finishing
-  jmp $
+  jmp disk_loop
 
-; Write our byte to memory
-DISK_ERROR_MSG:
-db "Disk error.", 0
+sectors_error:
+    mov bx, SECTORS_ERROR_MSG
+    call print_str
 
-; DAP:
-;   .size: db 0x10 ; size of DAP
-;   .unused: db 0 ; unused
-;   .numberOfSectors: dw 15 ; number of sectors to be read
-;   .offset: dd 0x7c00 ; buffer addr
-;   .lbaStart: dq 1 ; first sector
+disk_loop:
+    jmp $
 
-; disk_load:
-;     mov ah, 0x42
-;     mov si, DAP
-;     mov byte [DAP.numberOfSectors], dh
-;     int 0x13
-
-;     jc disk_error
-;     jmp $
-
-;     ret
-
-; disk_error:
-;   mov bx, DISK_ERROR_MSG
-;   call print_str
-;   ; Loop infinitely after finishing
-;   jmp $
-
-; DISK_ERROR_MSG: db 'Disk error.', 0
-; STUFF: db 'Random text', 0
-
-; DAP:
-;   .size: db 0x10 ; size of DAP
-;   .unused: db 0 ; unused
-;   .numberOfSectors: dw 15 ; number of sectors to be read
-;   .offset: dd 0x7e00 ; buffer addr
-;   .lbaStart: dq 1 ; first sector
+DISK_ERROR_MSG: db "Disk read error", 0
+SECTORS_ERROR_MSG: db "Incorrect number of sectors read", 0
