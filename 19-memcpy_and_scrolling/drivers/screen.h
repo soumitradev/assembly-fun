@@ -1,4 +1,4 @@
-#define VIDEO_ADDR (unsigned char*) 0xb8000
+#define VIDEO_ADDR (unsigned char *)0xb8000
 #define MAX_ROWS 25
 #define MAX_COLS 80
 

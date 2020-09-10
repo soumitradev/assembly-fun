@@ -84,6 +84,7 @@ void isr_handler(registers_t r) {
   int_to_char(r.int_no, s, 10);
   print(s, 0x4f);
   print("\n", 0);
-  print_at(exception_messages[r.int_no], 80-strlen(exception_messages[r.int_no]) - 3 + strlen(s), 24, 0);
+  print_at(exception_messages[r.int_no],
+           80 - strlen(exception_messages[r.int_no]) - 3 + strlen(s), 24, 0);
   print("\n", 0);
 }

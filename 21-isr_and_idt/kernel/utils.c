@@ -8,7 +8,7 @@ void memory_copy(char *source, char *dest, int nbytes) {
   }
 }
 
-void int_to_char(int n, char* str, int base) {
+void int_to_char(int n, char *str, int base) {
   int i, sign;
 
   if ((sign = n) < 0) n = -n;
