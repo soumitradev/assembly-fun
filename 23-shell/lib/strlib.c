@@ -1,18 +1,4 @@
-#include "./utils.h"
-
-// Write our own epic (unoptimised 😳) memcpy
-void memory_copy(char *source, char *dest, int nbytes) {
-  int i;
-  for (i = 0; i < nbytes; i++) {
-    *(dest + i) = *(source + i);
-  }
-}
-
-// Write our own epic (unoptimised 😳) memset
-void memory_set(u8 *dest, u8 val, u32 len) {
-  u8 *temp = (u8 *)dest;
-  for (; len != 0; len--) *temp++ = val;
-}
+#include "./strlib.h"
 
 // K&R implementation of itoa, fails on base > 10.
 void int_to_char(int n, char *str, int base) {
@@ -47,4 +33,23 @@ int strlen(char *str) {
   for (s = str; *s; s++) {
   }
   return (s - str);
+}
+
+// Append char to str
+void append(char *str, char new) {
+  int len = strlen(str);
+  str[len] = new;
+  str[len + 1] = '\0';
+}
+
+// Remove last char from str
+void backspace(char *str) { str[strlen(str) - 1] = '\0'; }
+
+// Return < 0 if s1 < s2, 0 if equal and > 0 if s1 > s2. Also K&R implementation
+int strcmp(char *s1, char *s2) {
+  int i;
+  for (i = 0; s1[i] == s2[i]; i++) {
+    if (s1[i] == '\0') return 0;
+  }
+  return s1[i] - s2[i];
 }
