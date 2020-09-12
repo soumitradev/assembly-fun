@@ -4,6 +4,7 @@
 #include "../kernel/utils.h"
 #include "./idt.h"
 
+// Install all the idts, and map them to appropriate functions
 void isr_install() {
   set_idt_gate(0, (u32)isr0);
   set_idt_gate(1, (u32)isr1);
@@ -41,8 +42,8 @@ void isr_install() {
   set_idt();
 }
 
+// Messages for each interrupt
 void isr_handler(registers_t r) {
-  /* To print the message which defines every exception */
   char *exception_messages[] = {"Division By Zero",
                                 "Debug",
                                 "Non Maskable Interrupt",
@@ -79,6 +80,7 @@ void isr_handler(registers_t r) {
                                 "Reserved",
                                 "Reserved"};
 
+  // Pretty print the interrupt in our own custom epic format
   print_at("Interrupt: ", 66, 24, 0x4f);
   char s[3];
   int_to_char(r.int_no, s, 10);

@@ -3,6 +3,7 @@
 
 #include "../cpu/types.h"
 
+// Keyboard functions
 void init_keyboard();
 void print_letter(u8 scancode);
 

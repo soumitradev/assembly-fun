@@ -3,6 +3,7 @@
 
 #include "types.h"
 
+// reference the handlers we wrote in assembly
 extern void isr0();
 extern void isr1();
 extern void isr2();

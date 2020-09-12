@@ -6,6 +6,7 @@ void memory_copy(char *source, char *dest, int nbytes) {
   }
 }
 
+// Write our own (crappy) itoa 😳
 void int_to_char(int n, char str[], int base) {
   int i, sign;
 
@@ -22,6 +23,7 @@ void int_to_char(int n, char str[], int base) {
   rev_str(str);
 }
 
+// Reverse string in place epic style (idk if this is faster than using a temporary variable)
 void rev_str(char *s) {
   int i, j;
   for (i = 0, j = strlen(s) - 1; i < j; i++, j--) {
@@ -31,6 +33,7 @@ void rev_str(char *s) {
   }
 }
 
+// Strlen 😳
 int strlen(char *str) {
   char *s;
   for (s = str; *s; s++) {

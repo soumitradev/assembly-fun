@@ -1,6 +1,7 @@
 [extern isr_handler]
 [extern irq_handler]
 
+; Common handler for isrs
 isr_common_func:
 	pusha
 	mov ax, ds
@@ -25,6 +26,7 @@ isr_common_func:
 	sti
 	iret 
 
+; Common handler for irqs
 irq_common_func:
     pusha 
     mov ax, ds
@@ -45,6 +47,7 @@ irq_common_func:
     sti
     iret 
 
+; Define and map every isr and irq
 global isr0
 global isr1
 global isr2

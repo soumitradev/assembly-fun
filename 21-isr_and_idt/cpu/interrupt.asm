@@ -1,5 +1,6 @@
 [extern isr_handler]
 
+; Common handler for the isrs
 isr_common_format:
     pusha
     mov ax, ds
@@ -22,6 +23,7 @@ isr_common_format:
     sti
     iret
 
+; Define isrs
 global isr0
 global isr1
 global isr2
@@ -55,6 +57,7 @@ global isr29
 global isr30
 global isr31
 
+; Handle each isr
 isr0:
     cli
     push byte 0

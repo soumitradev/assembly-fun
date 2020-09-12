@@ -1,6 +1,7 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+// Define some epic types to make our typing easier. These are long names.
 typedef unsigned int u32;
 typedef int s32;
 typedef unsigned short u16;

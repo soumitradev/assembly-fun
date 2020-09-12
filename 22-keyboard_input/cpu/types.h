@@ -1,6 +1,7 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+// Define types to make life easier
 typedef unsigned int u32;
 typedef int s32;
 typedef unsigned short u16;

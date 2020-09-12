@@ -3,6 +3,7 @@
 #include "./ports.h"
 #include "./screen.h"
 
+// Get key stroke and handle
 static void keyboard_callback(registers_t regs) {
   u8 scancode = port_byte_in(0x60);
   // char *sc_ascii;
@@ -14,8 +15,10 @@ static void keyboard_callback(registers_t regs) {
   // print("\n", 0);
 }
 
+// Map handler function to keyboard interrupts
 void init_keyboard() { register_interrupt_handler(IRQ1, keyboard_callback); }
 
+// Print each keystroke
 void print_letter(u8 scancode) {
   switch (scancode) {
     case 0x0:

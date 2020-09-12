@@ -1,3 +1,4 @@
+// Use include guards like the pr0s
 #ifndef SCREEN_H
 #define SCREEN_H
 

@@ -3,6 +3,7 @@
 
 #include "types.h"
 
+// The isr handlers we wrote in assembly
 extern void isr0();
 extern void isr1();
 extern void isr2();
@@ -36,6 +37,7 @@ extern void isr29();
 extern void isr30();
 extern void isr31();
 
+// Structure of all registers
 typedef struct {
   u32 ds;
   u32 edi, esi, ebp, esp, ebx, edx, ecx, eax;
@@ -43,6 +45,7 @@ typedef struct {
   u32 eip, cs, eflags, useresp, ss;
 } registers_t;
 
+// Functions
 void isr_install();
 void isr_handler(registers_t r);
 
