@@ -1,5 +1,5 @@
-C_SOURCES = $(wildcard kernel/*.c drivers/*.c cpu/*.c lib/*.c)
-HEADERS = $(wildcard kernel/*.h drivers/*.h cpu/*.h lib/*.h)
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c cpu/*.c lib/*.c mm/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/*.h cpu/*.h lib/*.h mm/*.h)
 OBJ = ${C_SOURCES:.c=.o cpu/interrupt.o}
 
 CC = /usr/local/i386elfgcc/bin/i386-elf-gcc
@@ -11,13 +11,13 @@ os-image.bin: boot/boot_sect.bin kernel.bin
 	cat $^ > $@
 
 kernel.bin: boot/kernel_entry.o ${OBJ}
-	i386-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
+	i386-elf-ld -o $@ -T linker.ld $^ --oformat binary
 
 kernel.elf: boot/kernel_entry.o ${OBJ}
-	i386-elf-ld -o $@ -Ttext 0x1000 $^
+	i386-elf-ld -o $@ -T linker.ld $^
 
 run: os-image.bin
-	qemu-system-i386 -hda $^
+	qemu-system-i386 -no-reboot -d int -monitor stdio -hda $^
 
 debug: os-image.bin kernel.elf
 	qemu-system-i386 -s -hda os-image.bin &
@@ -34,4 +34,4 @@ debug: os-image.bin kernel.elf
 
 clean:
 	rm -fr *.bin *.dis *.o os-image.bin *.elf
-	rm -fr kernel/*.o boot/*.bin drivers/*.o boot/*.o cpu/*.o lib/*.o
+	rm -fr kernel/*.o boot/*.bin drivers/*.o boot/*.o cpu/*.o lib/*.o  mm/*.o

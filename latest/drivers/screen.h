@@ -13,6 +13,7 @@
 #define REG_SCR_DAT 0x3d5
 
 void panic();
+void panic_message(char* message);
 void clr_scr();
 void flood(char chr, char attr);
 void print(char *str, char attr);

@@ -9,12 +9,13 @@ void memory_copy(char *source, char *dest, int nbytes) {
 }
 
 // Write our own epic (unoptimised 😳) memset
-void memory_set(u8 *dest, u8 val, u32 len) {
-  u8 *temp = (u8 *)dest;
+void memory_set(u32 *dest, u8 val, u32 len) {
+  u32 *temp = (u32 *)dest;
   for (; len != 0; len--) *temp++ = val;
 }
 
-u32 free_mem = 0x10000;
+extern u32 end;
+u32 free_mem = (u32)&end;
 
 u32 malloc(u32 size, int align, u32 *phys_addr) {
   if (free_mem == 0) free_mem = 0x10002;

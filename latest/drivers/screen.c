@@ -77,22 +77,44 @@ void print_at(char *str, int col, int row, char attr) {
   }
 }
 
+void print_at_offset(char *str, int offset, char attr) {
+  int initial_pos = get_cursor_offset();
+
+  set_cursor_offset(offset);
+  // Use print_char to print string
+  print(str, attr);
+  set_cursor_offset(initial_pos);
+}
+
 void print(char *str, char attr) {
   // Printing by default becomes so much easier
   print_at(str, -1, -1, attr);
 }
 
 void backspace_handler() {
-  print_char(' ', get_offset_col(get_cursor_offset()) - 1, get_offset_row(get_cursor_offset()), 0);
+  print_char(' ', get_offset_col(get_cursor_offset()) - 1,
+             get_offset_row(get_cursor_offset()), 0);
   set_cursor_offset(get_cursor_offset() - 2);
 }
-
 
 // Mass screen functions
 
 void panic() {
   // Kernel panic 😏
   flood('A', WHITE_ON_RED);
+  asm volatile("hlt");
+}
+
+void panic_message(char *message) {
+  // Kernel panic 😏
+  flood('A', WHITE_ON_RED);
+  char *complete_msg = "PANIC: \n";
+  concat(complete_msg, message);
+  complete_msg[strlen(complete_msg)] = ' ';
+  complete_msg[strlen(complete_msg) + 1] = '\0';
+  // int off = 2 * (MAX_COLS * MAX_ROWS - strlen(complete_msg));
+  print_at_offset(complete_msg, 0, 0xf0);
+  asm volatile("hlt");
 }
 
 void flood(char chr, char attr) {

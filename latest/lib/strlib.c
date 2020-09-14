@@ -1,4 +1,5 @@
 #include "./strlib.h"
+
 #include "./types.h"
 
 // K&R implementation of itoa, fails on base > 10.
@@ -65,6 +66,15 @@ void append(char *str, char new) {
   int len = strlen(str);
   str[len] = new;
   str[len + 1] = '\0';
+}
+
+void concat(char *str1, char *str2) {
+  int i;
+  int len = strlen(str1);
+  for (i = 0; str2[i] != '\0'; ++i, ++len) {
+    str1[len] = str2[i];
+  }
+  str1[len] = '\0';
 }
 
 // Remove last char from str

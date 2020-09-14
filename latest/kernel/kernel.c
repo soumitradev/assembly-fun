@@ -4,11 +4,15 @@
 #include "../drivers/screen.h"
 #include "../lib/memlib.h"
 #include "../lib/strlib.h"
+#include "../mm/paging.h"
 
 void kmain() {
   // Initialise interrupts
   isr_install();
   irq_install();
+
+  // Something wrong here...
+  init_paging();
 
   // Clear screen and show prompt
   clr_scr();
@@ -29,6 +33,16 @@ void user_input(char *input) {
     print("Bruh momento\n", 0);
     print(">", 0);
     return;
+  } else if (strcmp(input, "clr") == 0 || strcmp(input, "clear") == 0 ||
+             strcmp(input, "cls") == 0) {
+    clr_scr();
+    print(">", 0);
+    return;
+  } else if (strcmp(input, "die") == 0) {
+    volatile u32 *ptr = (volatile u32 *)0xA0000000;
+    *ptr = 'a';
+    print(">", 0);
+    return;
   } else if (strcmp(input, "page") == 0) {
     u32 phys_addr;
     u32 page = malloc(1000, 1, &phys_addr);
@@ -43,6 +57,7 @@ void user_input(char *input) {
     print("\n>", 0);
     return;
   }
+
   // Command not found
   print("Command ", 0);
   print(input, 0);
