@@ -1,5 +1,7 @@
 # Assembly Fun
 
+**[NO LONGER ACTIVE]**
+
 Recently, I looked at [@geohot](https://github.com/geohot)'s video of adding fore loops to Clang.
 
 I really wanted to learn more about Clang and LLVM, so I looked into it.
@@ -23,3 +25,5 @@ Old comment:
 > The `./latest/bochsrc` contains the config for the latest OS image. You'll have to modify it for every subfolder to run each image. Maybe I'll automate this config generation, compilation and testing later.
 
 All builds have been moved to `Make`. A Makefile is included in the newer folders. The old ones still use bochs.
+
+I failed at paging. I loaded kernel at 0x1000. This OS was 32-bit. Better I start 64 bit afresh. Apparently it's easier.
